@@ -4,7 +4,7 @@ from langgraph.graph import StateGraph,START,END
 from langchain.prompts import ChatPromptTemplate
 from typing import TypedDict
 from IPython.display import Image
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 import os
 from dotenv import load_dotenv
 from pydantic import BaseModel,Field
@@ -25,13 +25,11 @@ class EssayState(TypedDict):
     creativity_grade : GradeModel
     summary : str
 
-# Initialize the LLM with OpenRouter and OpenAI GPT-3.5 Turbo
-llm = ChatOpenAI(
-    model_name="openai/gpt-oss-20b:free",
-    base_url="https://openrouter.ai/api/v1",
-    openai_api_key=os.getenv("OPENROUTER_API_KEY"),
+# Initialize the LLM with Google Gemini 2.5 Flash
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash-exp",
+    google_api_key=os.getenv("GEMINI_API_KEY"),
     temperature=0.7,
-    # max_tokens= 261,
 )
 
 parser = PydanticOutputParser(pydantic_object=GradeModel)
